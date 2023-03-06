@@ -22,27 +22,5 @@ module.exports = {
     } catch (error) {
       console.error(error);
     }
-  },
-  summary: async ({ title, url }) => {
-    try {
-      const headline = await Headline.findOne({ title: title }).lean();
-
-      if (!headline.summary) {
-        const articleContent = await getArticleContent(url);
-        const summarizedContent = summarizeContent(articleContent);
-
-        const updatedHeadline = await Headline.findByIdAndUpdate(
-          headline._id,
-          { summary: summarizedContent },
-          { new: true }
-        ).lean();
-
-        console.log("saving summary to database");
-        return updatedHeadline;
-      }
-      return headline;
-    } catch (error) {
-      console.error(error);
-    }
-  },
+  }
 };

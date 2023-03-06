@@ -12,7 +12,6 @@ module.exports = buildSchema(`
 
   type RootQuery {
     headlines(startDate: String, endDate: String): [Headline!]!
-    summary(title: String, url: String): Headline!
   }
 
   type RootMutation {
