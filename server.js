@@ -26,8 +26,9 @@ app.use(
   })
 );
 
-const headlineRoutes = require("./routes/headlineRoutes");
-app.use("/api", headlineRoutes);
+app.use("/", (req, res) => {
+  res.send("Hello!");
+});
 
 mongoose
   .connect(process.env.MONGO_DB_URI, {
