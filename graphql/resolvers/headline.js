@@ -17,7 +17,7 @@ module.exports = {
         const end = new Date(endDate);
         query.date = { $gte: start, $lte: end };
       }
-      const headlines = await Headline.find(query).sort({date: -1}).lean();
+      const headlines = await Headline.find(query).sort({ date: -1 }).lean();
       return headlines;
     } catch (error) {
       console.error(error);
@@ -31,8 +31,8 @@ module.exports = {
         const articleContent = await getArticleContent(url);
         const summarizedContent = summarizeContent(articleContent);
 
-        const updatedHeadline = await Headline.findByIdAndUpdate(
-          headline._id,
+        const updatedHeadline = await Headline.findOneAndUpdate(
+          headline.title,
           { summary: summarizedContent },
           { new: true }
         ).lean();
