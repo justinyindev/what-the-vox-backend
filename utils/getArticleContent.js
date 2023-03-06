@@ -1,11 +1,15 @@
 const puppeteer = require("puppeteer");
+const PCR = require("puppeteer-chromium-resolver");
 
 const getArticleContent = async (url) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const options = {};
+  const stats = await PCR(options);
+  const browser = await stats.puppeteer
+    .launch({ headless: true, executablePath: stats.executablePath })
+    .catch((err) => {
+      console.error(err);
+    });
   const page = await browser.newPage();
-  await page.setUserAgent(
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36"
-  );
 
   await page.goto(url, { timeout: 10000, waitUntil: "domcontentloaded" });
 

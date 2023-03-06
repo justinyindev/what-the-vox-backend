@@ -31,8 +31,8 @@ module.exports = {
         const articleContent = await getArticleContent(url);
         const summarizedContent = summarizeContent(articleContent);
 
-        const updatedHeadline = await Headline.findOneAndUpdate(
-          headline.title,
+        const updatedHeadline = await Headline.findByIdAndUpdate(
+          headline._id,
           { summary: summarizedContent },
           { new: true }
         ).lean();
