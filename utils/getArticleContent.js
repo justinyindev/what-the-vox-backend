@@ -1,17 +1,12 @@
 const puppeteer = require("puppeteer");
-const PCR = require("puppeteer-chromium-resolver");
 
 const getArticleContent = async (url) => {
-  const options = {};
-  const stats = await PCR(options);
-  const browser = await stats.puppeteer
-    .launch({ headless: true, executablePath: stats.executablePath })
-    .catch((err) => {
-      console.error(err);
-    });
+  const browser = await puppeteer.launch({ headless: true }).catch((err) => {
+    console.error(err);
+  });
   const page = await browser.newPage();
 
-  await page.goto(url, { timeout: 10000, waitUntil: "domcontentloaded" });
+  await page.goto(url, { waitUntil: "domcontentloaded" });
 
   const articleContent = await page.evaluate(() => {
     const paragraphs = Array.from(
