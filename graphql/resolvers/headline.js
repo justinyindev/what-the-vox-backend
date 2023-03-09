@@ -12,7 +12,7 @@ module.exports = {
       // may need this pageInfo in the future
       const totalHeadlines = await Headline.countDocuments(query);
       const totalPages = Math.ceil(totalHeadlines / limit);
-      
+
       const headlines = await Headline.find(query)
         .sort({ date: -1 })
         .skip((page - 1) * limit)
@@ -20,7 +20,11 @@ module.exports = {
         .lean();
       
       return {
-        headlines
+        headlines,
+        pageInfo: {
+          currentPage: page,
+          totalPages: totalPages
+        }
       };
     } catch (error) {
       console.error(error);
