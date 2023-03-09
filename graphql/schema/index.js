@@ -10,8 +10,18 @@ module.exports = buildSchema(`
     summary: String
   }
 
+  type PageInfo {
+    currentPage: Int!
+    totalPages: Int!
+  }
+
+  type HeadlinesResult {
+    headlines: [Headline!]!
+    pageInfo: PageInfo
+  }
+
   type RootQuery {
-    headlines(startDate: String, endDate: String): [Headline!]!
+    headlines(startDate: String, endDate: String, page: Int, limit: Int): HeadlinesResult!
   }
 
   type RootMutation {
