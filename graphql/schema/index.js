@@ -1,6 +1,24 @@
 const { buildSchema } = require("graphql");
 
 module.exports = buildSchema(`
+  type User {
+    user_id: String!
+    username: String!
+    password: String
+    liked_articles: [String]
+  }
+
+  type AuthData {
+    userId: String!
+    token: String!
+    tokenExpiration: Int!
+  }
+
+  input UserInput {
+    username: String!
+    password: String!
+  }
+  
   type Headline {
     _id: ID!
     title: String!
@@ -25,8 +43,9 @@ module.exports = buildSchema(`
   }
 
   type RootMutation {
-    updateHeadline(id: ID!, title: String, url: String, date: String, image: String, summary: String): Headline
-    deleteHeadline(id: ID!): Headline
+    createUser(userInput: UserInput): User!
+    login(username: String!, password: String!): AuthData!
+    likeArticle(userId: ID!, articleTitle: String!): User!
   }
 
   schema {
