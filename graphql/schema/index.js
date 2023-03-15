@@ -12,6 +12,8 @@ module.exports = buildSchema(`
     user_id: String!
     token: String!
     tokenExpiration: Int!
+    username: String
+    bookmarks: [String]
   }
 
   input UserInput {

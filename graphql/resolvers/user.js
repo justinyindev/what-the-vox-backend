@@ -38,7 +38,13 @@ module.exports = {
     const token = jwt.sign({ user_id: user.user_id }, process.env.BCRYPT_KEY, {
       expiresIn: "1h",
     });
-    return { user_id: user.user_id, token: token, tokenExpiration: 1 };
+    return {
+      user_id: user.user_id,
+      token: token,
+      tokenExpiration: 1,
+      username: user.username,
+      bookmarks: user.bookmarks,
+    };
   },
   bookmark: async ({ title }, { req }) => {
     if (!req.isAuth) {

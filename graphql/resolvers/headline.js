@@ -9,7 +9,7 @@ module.exports = {
         const end = new Date(endDate);
         query.date = { $gte: start, $lte: end };
       }
-      // may need this pageInfo in the future
+
       const totalHeadlines = await Headline.countDocuments(query);
       const totalPages = Math.ceil(totalHeadlines / limit);
 
