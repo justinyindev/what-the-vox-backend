@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const { graphqlHTTP } = require("express-graphql");
 const schema = require("./graphql/schema/index");
 const root = require("./graphql/resolvers/index");
+const authMiddleware = require("./middleware/authMiddleware");
 require("dotenv").config();
 
 const app = express();
@@ -17,13 +18,15 @@ app.use(
   })
 );
 
+app.use(authMiddleware);
 app.use(
   "/graphql",
-  graphqlHTTP({
+  graphqlHTTP((req) => ({
     schema: schema,
     rootValue: root,
     graphiql: true,
-  })
+    context: { req },
+  }))
 );
 
 app.use("/", (req, res) => {

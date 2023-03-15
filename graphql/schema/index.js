@@ -9,7 +9,7 @@ module.exports = buildSchema(`
   }
 
   type AuthData {
-    userId: String!
+    user_id: String!
     token: String!
     tokenExpiration: Int!
   }
@@ -43,9 +43,9 @@ module.exports = buildSchema(`
   }
 
   type RootMutation {
-    createUser(userInput: UserInput): User!
-    login(username: String!, password: String!): AuthData!
-    likeArticle(userId: ID!, articleTitle: String!): User!
+    createUser(userInput: UserInput): User
+    login(username: String!, password: String!): AuthData
+    likeArticle(articleTitle: String!): User
   }
 
   schema {

@@ -26,40 +26,42 @@ module.exports = {
       const result = await user.save();
       return { ...result._doc, password: null };
     } catch (err) {
-      throw err;
+      console.error(err);
     }
   },
   login: async ({ username, password }) => {
     const user = await User.findOne({ username: username });
     if (!user) {
-      return {
-        userId: "",
-        token: "",
-        tokenExpiration: 0,
-      };
+      console.log("user does not exist");
+      return null;
     }
     const isEqual = await bcrypt.compare(password, user.password);
     if (!isEqual) {
-      return {
-        userId: "",
-        token: "",
-        tokenExpiration: 0,
-      };
+      console.log("Incorrect credentials");
+      return null;
     }
-    const token = jwt.sign({ userId: user.id }, process.env.BCRYPT_KEY, {
+    const token = jwt.sign({ user_id: user.user_id }, process.env.BCRYPT_KEY, {
       expiresIn: "1h",
     });
-    return { userId: user.user_id, token: token, tokenExpiration: 1 };
+    return { user_id: user.user_id, token: token, tokenExpiration: 1 };
   },
-  likeArticle: async ({ userId, articleTitle }) => {
-    const user = await User.findById(userId);
+  likeArticle: async ({ articleTitle }, { req }) => {
+    if (!req.isAuth) {
+      console.log("User not logged in");
+      return null;
+    }
+    const user = await User.findOne({ user_id: req.user_id });
     if (!user) {
       throw new Error("User not found");
     }
-    if (user.likedArticles.includes(articleTitle)) {
-      throw new Error("Article already liked");
+
+    const articleIndex = user.liked_articles.indexOf(articleTitle);
+    if (articleIndex >= 0) {
+      user.liked_articles.splice(articleIndex, 1);
+    } else {
+      user.liked_articles.push(articleTitle);
     }
-    user.likedArticles.push(articleTitle);
+
     const result = await user.save();
     return result;
   },
