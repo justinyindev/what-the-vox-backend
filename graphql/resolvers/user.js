@@ -9,19 +9,14 @@ module.exports = {
     try {
       const existingUser = await User.findOne({ username: userInput.username });
       if (existingUser) {
-        return {
-          user_id: "",
-          username: "",
-          password: "",
-          liked_articles: [],
-        };
+        return null;
       }
       const hashedPassword = await bcrypt.hash(userInput.password, 12);
       const user = new User({
         user_id: uuidv4(),
         username: userInput.username,
         password: hashedPassword,
-        liked_articles: [],
+        bookmarks: [],
       });
       const result = await user.save();
       return { ...result._doc, password: null };
@@ -45,7 +40,7 @@ module.exports = {
     });
     return { user_id: user.user_id, token: token, tokenExpiration: 1 };
   },
-  likeArticle: async ({ articleTitle }, { req }) => {
+  bookmark: async ({ title }, { req }) => {
     if (!req.isAuth) {
       console.log("User not logged in");
       return null;
@@ -55,11 +50,11 @@ module.exports = {
       throw new Error("User not found");
     }
 
-    const articleIndex = user.liked_articles.indexOf(articleTitle);
-    if (articleIndex >= 0) {
-      user.liked_articles.splice(articleIndex, 1);
+    const index = user.bookmarks.indexOf(title);
+    if (index >= 0) {
+      user.bookmarks.splice(index, 1);
     } else {
-      user.liked_articles.push(articleTitle);
+      user.bookmarks.push(title);
     }
 
     const result = await user.save();

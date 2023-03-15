@@ -5,7 +5,7 @@ module.exports = buildSchema(`
     user_id: String!
     username: String!
     password: String
-    liked_articles: [String]
+    bookmarks: [String]
   }
 
   type AuthData {
@@ -45,7 +45,7 @@ module.exports = buildSchema(`
   type RootMutation {
     createUser(userInput: UserInput): User
     login(username: String!, password: String!): AuthData
-    likeArticle(articleTitle: String!): User
+    bookmark(title: String!): User
   }
 
   schema {
