@@ -56,10 +56,14 @@ module.exports = {
       throw new Error("User not found");
     }
 
-    const index = user.bookmarks.indexOf(title);
-    if (index >= 0) {
-      user.bookmarks.splice(index, 1);
-    } else {
+    // const index = user.bookmarks.indexOf(title);
+    // if (index >= 0) {
+    //   user.bookmarks.splice(index, 1);
+    // } else {
+    //   user.bookmarks.push(title);
+    // }
+
+    if (!user.bookmarks.includes(title)) {
       user.bookmarks.push(title);
     }
 

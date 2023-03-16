@@ -41,7 +41,7 @@ module.exports = buildSchema(`
   }
 
   type RootQuery {
-    headlines(startDate: String, endDate: String, page: Int, limit: Int): HeadlinesResult!
+    headlines(startDate: String, endDate: String, bookmarks: [String], page: Int, limit: Int): HeadlinesResult!
   }
 
   type RootMutation {
