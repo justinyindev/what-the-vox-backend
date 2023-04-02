@@ -35,4 +35,7 @@ module.exports = {
       console.error(error);
     }
   },
+  createComment: async ({ headline, userId, content, timestamp }) => {
+    return null;
+  },
 };

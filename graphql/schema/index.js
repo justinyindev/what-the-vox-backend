@@ -20,6 +20,13 @@ module.exports = buildSchema(`
     username: String!
     password: String!
   }
+
+  type Comment {
+    user: String!
+    user_id: String!
+    content: String!
+    created_at: String!
+  }
   
   type Headline {
     _id: ID!
@@ -28,6 +35,7 @@ module.exports = buildSchema(`
     date: String!
     image: String!
     summary: String
+    comments: [Comment]
   }
 
   type PageInfo {
@@ -48,6 +56,7 @@ module.exports = buildSchema(`
     createUser(userInput: UserInput): User
     login(username: String!, password: String!): AuthData
     bookmark(title: String!): User
+    createComment(headline: String!, userId: String!, content: String!, timestamp: String!): Headline
   }
 
   schema {
