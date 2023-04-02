@@ -70,4 +70,14 @@ module.exports = {
     const result = await user.save();
     return result;
   },
+  userInfo: async ({ userId }) => {
+    if (!userId) return;
+
+    const user = await User.findOne({ user_id: userId });
+    if (!user) {
+      return null;
+    }
+
+    return user;
+  },
 };
