@@ -17,7 +17,9 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://what-the-vox.onrender.com",
-      "https://what-the-vox-2-0.onrender.com",
+      "https://what-the-vox.onrender.com/login",
+      "https://what-the-vox.onrender.com/bookmarks",
+      "https://what-the-vox.onrender.com/signup",
     ],
   })
 );
