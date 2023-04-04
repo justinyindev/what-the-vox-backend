@@ -1,7 +1,7 @@
 const Headline = require("./../../models/headline");
 
 module.exports = {
-  headlines: async ({ startDate, endDate, bookmarks, page, limit }) => {
+  headlines: async ({ startDate, endDate, titles, page, limit }) => {
     try {
       let query = {};
       if (startDate && endDate) {
@@ -10,9 +10,9 @@ module.exports = {
         query.date = { $gte: start, $lte: end };
       }
 
-      if (bookmarks.length > 0) {
-        const bookmarkedTitles = bookmarks.map((bookmark) => bookmark);
-        query.title = { $in: bookmarkedTitles };
+      if (titles.length > 0) {
+        const headlinesToFind = titles.map((title) => title);
+        query.title = { $in: headlinesToFind };
       }
 
       const totalHeadlines = await Headline.countDocuments(query);
